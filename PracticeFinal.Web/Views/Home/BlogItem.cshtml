@@ -1,0 +1,23 @@
+﻿@using PracticeFinal.WebAPI.Models.SiteItems
+@model MusketeerBlogItem
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="text-center">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-8 text-start">
+                <h1>@Model.Header</h1>
+            </div>
+            <div class="col">
+                <img src=@("/images/blog/large/" + Model.LargeImage) class="card-img-top" alt=@Model.Name>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 text-start">
+                @Model.Content
+            </div>
+        </div>
+    </div>
+</div>

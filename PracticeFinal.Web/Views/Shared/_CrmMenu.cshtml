@@ -1,0 +1,17 @@
+﻿@using PracticeFinal.WebAPI.Models.SiteItems
+
+@if (TempData["IsUserSignedIn"] != null && (bool)TempData["IsUserSignedIn"]!)
+{
+    TempData.Keep("IsUserSignedIn");
+
+    <div class="col-2">
+        <div class="list-group">
+            <a asp-action="CRM" class="list-group-item list-group-item-action @(ViewData["crmMenuItem"]?.ToString()=="1" ? "active" : "")" aria-current="true">Заявки</a>
+            <a asp-action="SiteInfo" asp-route-mode=1 class="list-group-item list-group-item-action @(ViewData["crmMenuItem"]?.ToString()=="2" ? "active" : "")">Главная</a>
+            <a asp-action="SiteItems" asp-route-type=@typeof(MusketeerProject).Name class="list-group-item list-group-item-action @(ViewData["crmMenuItem"]?.ToString()=="3" ? "active" : "")">Проекты</a>
+            <a asp-action="SiteItems" asp-route-type=@typeof(MusketeerService).Name class="list-group-item list-group-item-action @(ViewData["crmMenuItem"]?.ToString()=="4" ? "active" : "")">Услуги</a>
+            <a asp-action="SiteItems" asp-route-type=@typeof(MusketeerBlogItem).Name class="list-group-item list-group-item-action @(ViewData["crmMenuItem"]?.ToString()=="5" ? "active" : "")">Блог</a>
+            <a asp-action="SiteInfo" asp-route-mode=2 class="list-group-item list-group-item-action @(ViewData["crmMenuItem"]?.ToString()=="6" ? "active" : "")">Контакты</a>
+        </div>
+    </div>
+}

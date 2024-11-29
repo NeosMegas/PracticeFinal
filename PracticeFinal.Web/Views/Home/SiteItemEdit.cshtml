@@ -1,0 +1,125 @@
+﻿@using PracticeFinal.WebAPI
+@using PracticeFinal.WebAPI.Models
+@using PracticeFinal.WebAPI.Models.SiteItems
+@model MusketeerSiteItem
+@{
+    ViewData["Title"] = (Model.Id == -1 ? "Создание" : "Редактирование") + " записи";
+}
+
+<div class="container text-start container-fluid">
+    <div class="row">
+        <partial name="_CrmMenu" />
+        <div class="col-10">
+            <div class="text-start">
+                @{
+                    if (Model != null)
+                    {
+                        <div class="container">
+                            <form asp-action="SiteItemSubmit" asp-route-type="@Model.GetType().Name" asp-route-id="@Model.Id" enctype="multipart/form-data">
+                                @{
+                                    if (Model.Id > -1)
+                                    {
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label fw-bold">Наименование</label>
+                                            <input type="text" class="form-control" id="name" name="name" value="@Model.Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label fw-bold">Описание</label>
+                                            <textarea class="form-control" name="description" id="description">@Model.Description</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="position" class="form-label fw-bold">Позиция</label>
+                                            <input type="number" class="form-control" id="position" name="position" value="@Model.Position">
+                                        </div>
+                                        if (@Model.GetType() == typeof(MusketeerProject))
+                                        {
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label fw-bold">Изображение (@((Model as MusketeerProject)?.Image))</label>
+                                                <input class="form-control" type="file" id="image" name="image" value="@((Model as MusketeerProject)?.Image)">
+                                            </div>
+                                        }
+                                        if (@Model.GetType() == typeof(MusketeerBlogItem))
+                                        {
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label fw-bold">Изображение (@((Model as MusketeerBlogItem)?.Image))</label>
+                                                <input class="form-control" type="file" id="image" name="image" value="@((Model as MusketeerProject)?.Image)">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="header" class="form-label fw-bold">Заголовок</label>
+                                                <input type="text" class="form-control" id="header" name="header" value="@((Model as MusketeerBlogItem)?.Header)">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="content" class="form-label fw-bold">Содержимое</label>
+                                                <textarea class="form-control" name="content" id="content">@((Model as MusketeerBlogItem)?.Content)</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="largeImage" class="form-label fw-bold">Большое изображение ((@((Model as MusketeerBlogItem)?.LargeImage)))</label>
+                                                <input class="form-control" type="file" id="largeImage" name="largeImage" value="@((Model as MusketeerBlogItem)?.LargeImage)">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="publishDate" class="form-label fw-bold">Дата публикации</label>
+                                                <input class="form-control" type="date" id="publishDate" name="publishDate" value="@((Model as MusketeerBlogItem)?.PublishDate.ToString("yyyy-MM-dd"))">
+                                            </div>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Наименование</label>
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Наименование">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Описание</label>
+                                            <textarea class="form-control" name="description" id="description" placeholder="Описание"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="position" class="form-label">Позиция</label>
+                                            <input type="number" class="form-control" id="position" name="position" value="@Model.Position">
+                                        </div>
+                                        if (@Model.GetType() == typeof(MusketeerProject))
+                                        {
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label fw-bold">Изображение</label>
+                                                <input class="form-control" type="file" id="image" name="image" placeholder="Изображение">
+                                            </div>
+                                        }
+                                        if (@Model.GetType() == typeof(MusketeerBlogItem))
+                                        {
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label fw-bold">Изображение</label>
+                                                <input class="form-control" type="file" id="image" name="image" placeholder="Изображение">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="header" class="form-label fw-bold">Заголовок</label>
+                                                <input type="text" class="form-control" id="header" name="header" placeholder="Заголовок">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="content" class="form-label fw-bold">Содержимое</label>
+                                                <textarea class="form-control" name="content" id="content" placeholder="Содержимое"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="largeImage" class="form-label fw-bold">Большое изображение</label>
+                                                <input class="form-control" type="file" id="largeImage" name="largeImage" placeholder="Большое изображение">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="publishDate" class="form-label fw-bold">Дата публикации</label>
+                                                <input class="form-control" type="date" id="publishDate" name="publishDate" value=@DateTime.Now.Date.ToString("yyyy-MM-dd")>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Проблемы с авторизацией.</p>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿@model SiteInfos
+@{
+    ViewData["Title"] = "Редактор сайта";
+    if (ViewData["mode"] != null && (int)ViewData["mode"]! == 1)
+        ViewData["crmMenuItem"] = "2";
+    else if (ViewData["mode"] != null && (int)ViewData["mode"]! == 2)
+        ViewData["crmMenuItem"] = "6";
+}
+@if (TempData["IsUserSignedIn"] != null && (bool)TempData["IsUserSignedIn"]!)
+{
+    TempData.Keep("IsUserSignedIn");
+
+    <div class="container text-start container-fluid">
+        <div class="row">
+            <partial name="_CrmMenu" view-data="ViewData" />
+            <div class="col-10">
+                <div class="text-center">
+                    @{
+                        if (Model != null)
+                        {
+                            <form asp-action="PutSiteInfo" asp-route-mode=@((int)ViewData["mode"]!)>
+                                <div class="container">
+                                    <table class="table table-striped text-start">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Параметр</th>
+                                                <th scope="col">Значение</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if ((int)ViewData["mode"]! == 1)
+                                                {
+                                                    <tr>
+                                                        <th scope="row">Заголовок главной страницы</th>
+                                                        <td>
+                                                            <textarea class="form-control" name="mainTitle">@Model["mainTitle"]</textarea>
+                                                        </td>
+                                                    </tr>
+                                                    @*<tr>
+                                <th scope="row">Случайная цитата на главной странице</th>
+                                <td>
+                                <input class="form-check-input" type="checkbox" value="" name="useRandomSplash" @(Model["useRandomSplash"] == "1" ? "checked" : "") />
+                                </td>
+                                </tr> *@
+                                                    <tr>
+                                                        <th scope="row">Текст цитаты</th>
+                                                        <td>
+                                                            @* <input type="text" class="form-control" name="splashText" value=@Model["splashText"] @(Model["useRandomSplash"] == "1" ? "disabled" : "") /> *@
+                                                            <textarea class="form-control" name="splashText">@Model["splashText"]</textarea>
+                                                            @* <input type="text" class="form-control" name="splashText" value=@Model["splashText"] /> *@
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Надпись на кнопке "Главная"</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="mainButtonText" value="@Model["mainButtonText"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Надпись на кнопке "Проекты"</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="projectsButtonText" value="@Model["projectsButtonText"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Надпись на кнопке "Услуги"</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="servicesButtonText" value="@Model["servicesButtonText"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Надпись на кнопке "Блог"</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="blogButtonText" value="@Model["blogButtonText"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Надпись на кнопке "Контакты"</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="contactsButtonText" value="@Model["contactsButtonText"]" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else if ((int)ViewData["mode"]! == 2)
+                                                {
+                                                    <tr>
+                                                        <th scope="row">Адрес</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="contactAddress" value="@Model["contactAddress"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Телефон</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="contactPhone" value="@Model["contactPhone"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">e-mail</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="contactEmail" value="@Model["contactEmail"]" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">ФИО</th>
+                                                        <td>
+                                                            <input type="text" class="form-control" name="contactName" value="@Model["contactName"]" />
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <p>Ошибка получения данных с сервера.</p>
+                        }
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}

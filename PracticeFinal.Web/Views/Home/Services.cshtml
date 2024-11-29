@@ -1,0 +1,32 @@
+﻿@using PracticeFinal.WebAPI.Models.SiteItems
+@{
+    ViewData["Title"] = "Услуги";
+}
+@model List<MusketeerService>
+
+<div class="text-center">
+    <h1 class="display-4">Предоставляемые услуги</h1>
+    <div class="accordion" id="accordionServices">
+        @{
+            int i = 0;
+            foreach (MusketeerService item in Model.OrderBy(p => p.Position))
+            {
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target=@("#panelsStayOpen-collapse" + i) aria-expanded="false" aria-controls=@("panelsStayOpen-collapse" + i) >
+                            @item.Name
+                        </button>
+                    </h2>
+                    <div id=@("panelsStayOpen-collapse" + i) class="accordion-collapse collapse" data-bs-parent="#accordionServices" >
+                        <div class="accordion-body text-start">
+                            @item.Description
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+    </div>
+
+</div>

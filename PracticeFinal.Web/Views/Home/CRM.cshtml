@@ -1,0 +1,110 @@
+﻿@using PracticeFinal.WebAPI.Models
+@{
+    ViewData["Title"] = "Рабочий стол";
+    ViewData["crmMenuItem"] = 1;
+}
+
+@model List<UserRequest>
+
+<div class="container text-start container-fluid">
+    <div class="row">
+        <partial name="_CrmMenu" view-data=@ViewData />
+        <div class="col-10">
+            <div class="text-center">
+                @{
+                    if (Model != null)
+                    {
+                        <div class="container">
+                            <div class="row">
+                                <p class="text-start">Общее число заявок: @(ViewBag.TotalUserRequests)</p>
+                            </div>
+                            <form asp-action="ShowUserRequestsPeriod">
+                                <button type="submit" asp-action="ShowUserRequestsToday" class="btn btn-primary">Сегодня</button>
+                                <button type="submit" asp-action="ShowUserRequestsYesterday" class="btn btn-primary">Вчера</button>
+                                <button type="submit" asp-action="ShowUserRequestsWeek" class="btn btn-primary">Неделя</button>
+                                <button type="submit" asp-action="ShowUserRequestsMonth" class="btn btn-primary">Месяц</button>
+                                <button type="submit" asp-action="ShowUserRequestsPeriod" class="btn btn-primary">Период</button>
+                                <button type="submit" asp-action="CRM" class="btn btn-primary">Все</button>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <input name="startDate" class="form-control" type="date" value=@(ViewData["t1"] != null ? ((DateTime)ViewData["t1"]!).ToString("yyyy-MM-dd") : DateTime.Now.Date.ToString("yyyy-MM-dd")) />
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <input name="endDate" class="form-control" type="date" value=@(ViewData["t2"] != null ? ((DateTime)ViewData["t2"]!).ToString("yyyy-MM-dd") : DateTime.Now.Date.ToString("yyyy-MM-dd")) />
+                                    </div>
+                                </div>
+                            </form>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Номер заявки</th>
+                                        <th scope="col">Время заявки</th>
+                                        <th scope="col">Имя</th>
+                                        <th scope="col">Текст заявки</th>
+                                        <th scope="col">Контакты</th>
+                                        <th scope="col">Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @{
+                                    foreach (UserRequest item in Model)
+                                        {
+                                            <tr>
+                                                <th scope="row">@item.Id</th>
+                                                <td>@item.Created</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.MessageText</td>
+                                                <td>@item.Email</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            @{
+                                                                switch (item.RequestStatus)
+                                                                {
+                                                                    case RequestStatus.NewRequest:
+                                                                        <text>Новая</text>
+                                                                        break;
+                                                                    case RequestStatus.InProgress:
+                                                                        <text>В работе</text>
+                                                                        break;
+                                                                    case RequestStatus.Completed:
+                                                                        <text>Выполнена</text>
+                                                                        break;
+                                                                    case RequestStatus.Rejected:
+                                                                        <text>Отклонена</text>
+                                                                        break;
+                                                                    case RequestStatus.Cancelled:
+                                                                        <text>Отменена</text>
+                                                                        break;
+                                                                }
+                                                        }
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="ChangeRequestStatus?id=@(item.Id)&status=0">Получена</a></li>
+                                                            <li><a class="dropdown-item" href="ChangeRequestStatus?id=@(item.Id)&status=1">В работе</a></li>
+                                                            <li><a class="dropdown-item" href="ChangeRequestStatus?id=@(item.Id)&status=2">Выполнена</a></li>
+                                                            <li><a class="dropdown-item" href="ChangeRequestStatus?id=@(item.Id)&status=3">Отклонена</a></li>
+                                                            <li><a class="dropdown-item" href="ChangeRequestStatus?id=@(item.Id)&status=4">Отменена</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Проблемы с авторизацией.</p>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+

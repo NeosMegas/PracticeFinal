@@ -1,0 +1,25 @@
+﻿@using PracticeFinal.WebAPI.Models.SiteItems
+@{
+    ViewData["Title"] = "Блог";
+}
+@model List<MusketeerBlogItem>
+
+<div class="text-center">
+    <h1 class="display-4">Блог</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-2">
+        @{
+            foreach (MusketeerBlogItem item in Model.OrderBy(p => p.Position))
+            {
+                <div class="col">
+                    <a href=@("BlogItem?id=" + item.Id) class="card btn" style="width: 18rem;">
+                        <img src=@("/images/blog/" + item.Image) class="card-img-top" alt=@item.Name>
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                        </div>
+                    </a>
+                </div>
+
+            }
+        }
+    </div>
+</div>

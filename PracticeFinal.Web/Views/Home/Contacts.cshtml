@@ -1,0 +1,12 @@
+﻿@model SiteInfos
+@{
+    ViewData["Title"] = "Контакты";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Контакты</h1>
+    <p>@Model["contactAddress"]</p>
+    <p>Телефон: @Model["contactPhone"]</p>
+    <p>e-mail: <a href="mailto:@Model["contactEmail"]" target="_blank">@Model["contactEmail"]</a></p>
+    <p>С уважением,<br />@Model["contactName"]</p>
+</div>
